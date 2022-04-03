@@ -1,0 +1,319 @@
+/* DDRC-C: Estilo para la pantalla de inicio */
+.bodyContent {
+    display              : grid;
+    grid-template-columns: 1fr;
+    grid-auto-rows       : minmax(25%, auto);
+    grid-template-areas  :
+        "header"
+        "CACC"
+        "RCC"
+        "MCC"
+        "ACC"
+        "RECC"
+        "MACC";
+    gap             : 10px;
+    height          : 100vh;
+    /* background-color: rgb(255, 233, 233); */
+}
+
+.contentHeader {
+    grid-area   : header;
+    align-self  : center;
+    justify-self: center;
+}
+
+h1{
+font-size: 3em;
+}
+
+h3{
+font-size: 2em;
+}
+
+/* DDRC-C: posicion de las tarjetas */
+
+.CACC {
+    grid-area: CACC;
+}
+.RCC {
+    grid-area: RCC;
+}
+
+.MCC {
+    grid-area: MCC;
+}
+
+.ACC {
+    grid-area: ACC;
+}
+
+.RECC {
+    grid-area: RECC;
+}
+
+.MACC {
+    grid-area: MACC;
+}
+
+/* DDRC-C: estilo general de tarjetas */
+.card {
+    /* grid-area: body; */
+    border        : solid;
+    border-color  : #011253;
+    border-radius : 5%;
+    padding       : 2%;
+    display       : flex;
+    flex-direction: column;
+
+}
+
+.card-header {
+    /* background: gray; */
+    height: 10%;
+}
+
+.card-body {
+    /* background: firebrick; */
+    display        : flex;
+    height         : 70%;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.card-footer {
+    /* background-color: rgb(200, 250, 255); */
+    height      : 20%;
+    align-self  : center;
+    text-justify: auto;
+    justify-self: self-end;
+}
+
+/* DDRC-C: animacion de las tarjetas */
+.our-team {
+    padding: 30px 0 40px;
+    margin-bottom: 30px;
+    /* background-color: #f7f5ec; */
+    text-align: center;
+    overflow: hidden;
+    position: relative;
+    height: 100%;
+    width: 100%;
+  }
+  
+  .our-team .picture {
+    display: inline-block;
+    height: 200px;
+    width: 200px;
+    margin-bottom: 50px;
+    z-index: 1;
+    position: relative;
+  }
+  
+  .our-team .picture::before {
+    content: "";
+    width: 100%;
+    height: 0;
+    border-radius: 50%;
+    background-color: #1369ce;
+    position: absolute;
+    bottom: 135%;
+    right: 0;
+    left: 0;
+    opacity: 0.9;
+    transform: scale(3);
+    transition: all 0.3s linear 0s;
+  }
+  
+  .our-team:hover .picture::before {
+    height: 100%;
+  }
+  
+  .our-team .picture::after {
+    content: "";
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: #1369ce;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+  }
+  
+  .our-team .picture img {
+    width: 100%;
+    height: auto;
+    border-radius: 50%;
+    transform: scale(1);
+    transition: all 0.9s ease 0s;
+  }
+  
+  .our-team:hover .picture img {
+    box-shadow: 0 0 0 14px #f7f5ec;
+    transform: scale(0.7);
+  }
+
+/* DDRC-C: configuracion para hacer reponsive las paginas */
+
+/* dispositivos medianos con pantallas de 600px en adelante */
+@media only screen and (min-width: 600px) {
+    .bodyContent {
+        display              : grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-auto-rows       : minmax(100px, auto);
+        grid-template-areas  :
+            "header header header header"
+            "CACC CACC RCC RCC"
+            "MCC MCC ACC ACC"
+            "RECC RECC MACC MACC";
+    }
+    /* DDRC-C: animacion de las tarjetas */
+.our-team {
+    padding: 30px 0 40px;
+    margin-bottom: 30px;
+    /* background-color: #f7f5ec; */
+    text-align: center;
+    overflow: hidden;
+    position: relative;
+    height: 100%;
+    width: 100%;
+  }
+  
+  .our-team .picture {
+    display: inline-block;
+    height: 200px;
+    width: 200px;
+    margin-bottom: 50px;
+    z-index: 1;
+    position: relative;
+  }
+  
+  .our-team .picture::before {
+    content: "";
+    width: 100%;
+    height: 0;
+    border-radius: 50%;
+    background-color: #1369ce;
+    position: absolute;
+    bottom: 135%;
+    right: 0;
+    left: 0;
+    opacity: 0.9;
+    transform: scale(3);
+    transition: all 0.3s linear 0s;
+  }
+  
+  .our-team:hover .picture::before {
+    height: 100%;
+  }
+  
+  .our-team .picture::after {
+    content: "";
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: #1369ce;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+  }
+  
+  .our-team .picture img {
+    width: 100%;
+    height: auto;
+    border-radius: 50%;
+    transform: scale(1);
+    transition: all 0.9s ease 0s;
+  }
+  
+  .our-team:hover .picture img {
+    box-shadow: 0 0 0 14px #f7f5ec;
+    transform: scale(0.7);
+  }
+}
+
+/* dispositivos grandes con pantallas de 992px en adelante */
+@media only screen and (min-width: 992px) {
+    .bodyContent {
+        display              : grid;
+        grid-template-columns: repeat(6, 1fr);
+        grid-template-rows   : 33%;
+        grid-template-areas  :
+            "header header header header header header"
+            "CACC CACC RCC RCC MCC MCC"
+            "ACC ACC RECC RECC MACC MACC";
+    }
+    /* DDRC-C: animacion de las tarjetas */
+.our-team {
+    padding: 30px 0 40px;
+    margin-bottom: 30px;
+    /* background-color: #f7f5ec; */
+    text-align: center;
+    overflow: hidden;
+    position: relative;
+    height: 100%;
+    width: 100%;
+  }
+  
+  .our-team .picture {
+    display: inline-block;
+    height: 200px;
+    width: 200px;
+    margin-bottom: 50px;
+    z-index: 1;
+    position: relative;
+  }
+  
+  .our-team .picture::before {
+    content: "";
+    width: 100%;
+    height: 0;
+    border-radius: 50%;
+    background-color: #1369ce;
+    position: absolute;
+    bottom: 135%;
+    right: 0;
+    left: 0;
+    opacity: 0.9;
+    transform: scale(3);
+    transition: all 0.3s linear 0s;
+  }
+  
+  .our-team:hover .picture::before {
+    height: 100%;
+  }
+  
+  .our-team .picture::after {
+    content: "";
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: #1369ce;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+  }
+  
+  .our-team .picture img {
+    width: 100%;
+    height: auto;
+    border-radius: 50%;
+    transform: scale(1);
+    transition: all 0.9s ease 0s;
+  }
+  
+  .our-team:hover .picture img {
+    box-shadow: 0 0 0 14px #f7f5ec;
+    transform: scale(0.7);
+  }
+}
+
+/* DDRC-C: imagenes */
+.img {
+    border-radius: 100%;
+    scale        : 20%;
+    width        : 30%;
+}
