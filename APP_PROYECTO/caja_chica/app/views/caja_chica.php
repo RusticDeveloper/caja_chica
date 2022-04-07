@@ -5,6 +5,7 @@
 <button type="button" class="back-btn">Regresar</button>
     
 <form action="../controllers/cajaChica.controller.php" method="post">
+    <!-- DDRC-C: campo oculto para mostrar la accion que se va a realizar -->
     <input type="text" hidden id="action_input" name="action">
     <!-- DDRC-C: condicional para la actualización o creación de caja chica -->
     <?php if($futureAction==='create'){ ?>

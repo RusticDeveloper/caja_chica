@@ -13,22 +13,15 @@ $informacion = array("monto" => $monto, "usuario" => $usuario);
 
 // DDRC-C: comportamiento de la vista dependiendo de una acción y de si hay una caja chica en uso
 $current = getCurrentPettyBox();
-$futureAction;
-$idPettyBox=null;
 
 if (gettype($current) === 'string') {
-    echo 'no hay resultados ';
     $futureAction = 'create';
 } else {
-    echo ' hay resultados';
-    $idPettyBox=$current['id'];
-$nombre=$current['nombres'];
-$apellido=$current['apellidos'];
-$efectivo_caja_chica=$current['monto_caja_chica'];
-$descripcion_caja_chica=$current['descripcion'];
-    foreach ($current as $key => $value) {
-        echo $key.'=>'.$value.'<br>';
-    }
+    $idPettyBox = $current['id'];
+    $nombre = $current['nombres'];
+    $apellido = $current['apellidos'];
+    $efectivo_caja_chica = $current['monto_caja_chica'];
+    $descripcion_caja_chica = $current['descripcion'];
     $futureAction = 'update';
 }
 
@@ -62,22 +55,6 @@ switch ($action) {
     default:
         $usuarios = getUserList();
         $futureAction;
-        
-        include('../views/caja_chica.php');
+        include('../views/reposicion.php');
         break;
 }
-
-
-
-// DDRC-CI: codigo util para recorrer un array recibido de la base de datos
-// <?php 
-//         if (isset($test)) {
-//             foreach ($test as $key => $value) {
-//              echo $key.'=>'.$value;
-//                 echo'<br>';
-//                 foreach ($value as $key1 => $value1) {
-//                     echo $key1.'=>'.$value1.'<br>';
-//                 }
-//             }
-//              echo $test;
-//         }else{echo'no users';}   

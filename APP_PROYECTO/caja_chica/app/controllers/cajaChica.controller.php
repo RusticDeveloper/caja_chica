@@ -17,19 +17,17 @@ $futureAction;
 $idPettyBox = null;
 
 if (gettype($current) === 'string') {
-    echo 'no hay resultados ';
     $futureAction = 'create';
 } else {
-    echo ' hay resultados';
     $idPettyBox = $current['id'];
     $nombre = $current['nombres'];
     $apellido = $current['apellidos'];
     $efectivo_caja_chica = $current['monto_caja_chica'];
     $descripcion_caja_chica = $current['descripcion'];
-    foreach ($current as $key => $value) {
-        echo $key . '=>' . $value . '<br>';
-    }
     $futureAction = 'update';
+    // foreach ($current as $key => $value) {
+    //     echo $key . '=>' . $value . '<br>';
+    // }
 }
 
 switch ($action) {

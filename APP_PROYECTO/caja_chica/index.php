@@ -36,7 +36,7 @@
             </a>
         </div>
         <div class="card RCC">
-            <a href="app/views/reposicion.php">
+            <a href="app/controllers/reposicionCajaChica.controller.php">
                 <div class="card-header">
 
                 </div>
@@ -53,7 +53,7 @@
             </a>
         </div>
         <div class="card MCC">
-        <a href="app/views/movimientos.php">
+        <a href="app/controllers/listaMovimientosCajaChica.controller.php">
             <div class="card-header">
 
             </div>
