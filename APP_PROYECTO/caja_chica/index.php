@@ -1,14 +1,14 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="assets/css/general.css">
-    <link rel="stylesheet" href="assets/css/index.css">
-    <!-- DDRC-C: custom icon for the tab -->
-    <link rel="icon" type="image/svg" href="assets/img/favicon.svg">
+    <link rel="stylesheet" href="./assets/css/general.css">
+    <link rel="stylesheet" href="./assets/css/index.css">
+    DDRC-C: custom icon for the tab
+    <link rel="icon" type="image/svg" href="./assets/img/favicon.svg">
     <title>APP PROYECTO</title>
 </head>
 
@@ -26,7 +26,7 @@
                 <div class="card-body">
                     <div class="our-team">
                         <div class="picture">
-                            <img src="assets/img/beer.svg" class="img" alt="description image">
+                            <img src="assets/img/4.svg" class="img" alt="description image">
                         </div>
                     </div>
                 </div>
@@ -43,7 +43,7 @@
                 <div class="card-body">
                     <div class="our-team">
                         <div class="picture">
-                            <img src="assets/img/beer.svg" class="img" alt="description image">
+                            <img src="assets/img/6.svg" class="img" alt="description image">
                         </div>
                     </div>
                 </div>
@@ -60,7 +60,7 @@
             <div class="card-body">
                 <div class="our-team">
                     <div class="picture">
-                        <img src="assets/img/beer.svg" class="img-fluid" alt="description image">
+                        <img src="assets/img/8.svg" class="img" alt="description image">
                     </div>
                 </div>
             </div>
@@ -70,14 +70,14 @@
         </a>
         </div>
         <div class="card ACC">
-        <a href="app/views/arqueo.php">
+        <a href="app/controllers/listaArqueosCajaChica.controller.php">
             <div class="card-header">
 
             </div>
             <div class="card-body">
                 <div class="our-team">
                     <div class="picture">
-                        <img src="assets/img/beer.svg" class="img" alt="description image">
+                        <img src="assets/img/14.svg " class="img" alt="description image">
                     </div>
                 </div>
             </div>
@@ -87,14 +87,14 @@
         </a>
         </div>
         <div class="card RECC">
-        <a href="app/views/reportes.php">
+        <a href="app/controllers/reportes.controller.php">
             <div class="card-header">
 
             </div>
             <div class="card-body">
                 <div class="our-team">
                     <div class="picture">
-                        <img src="assets/img/beer.svg" class="img" alt="description image">
+                        <img src="assets/img/reports.svg " class="img" alt="description image">
                     </div>
                 </div>
             </div>
@@ -111,7 +111,7 @@
             <div class="card-body">
                 <div class="our-team">
                     <div class="picture">
-                        <img src="assets/img/beer.svg" class="img" alt="description image">
+                        <img src="assets/img/manual.svg" class="img" alt="description image">
                     </div>
                 </div>
             </div>
@@ -121,12 +121,57 @@
         </a>
         </div>
     </section>
-    <!-- <a href="app/controllers/cajaChica.controller.php"> ir a caja chica</a> -->
-
 </body>
 
-</html>
+</html> -->
 <?php
-require('app/models/connection.php');
+
+// require_once('./app/core/clases/router/Routes.php');
+// require_once('./app/core/clases/router/Route.php');
+
+// spl_autoload_register(function($class_name){
+//     require_once 'app/core/clases/router/'.$class_name.'.php';
+// });
+
+// echo $_GET['url'];
+// echo __DIR__;
+$request1 = $_SERVER['REQUEST_URI'];
+$part=explode('/',$request1);
+$request = end($part);
+// echo (explode('?',$request)[1].'<br>');
+// echo var_dump($part);
+switch ($request) {
+    case '/' :
+        require __DIR__ . '/app/views/inicio.test.php';
+        break;
+    case '' :
+        require __DIR__ . '/app/views/inicio.test.php';
+        break;
+    case 'manual' :
+        require __DIR__ . '/app/views/manual.php';
+        break;
+    case 'reposicion' :
+        require __DIR__ . '/app/views/manual.php';
+        break;
+    case 'cajaChica?action' :
+        require __DIR__ . '/app/controllers/cajaChica.controller.php';
+        break;
+    case 'movimientos' :
+        require __DIR__ . '/app/controllers/listaMovimientosCajaChica.controller.php';
+        break;
+    case 'cajaChica' :
+        require __DIR__ . '/app/controllers/cajaChica.controller.php';
+        break;
+    case 'cajaChica' :
+        require __DIR__ . '/app/controllers/cajaChica.controller.php';
+        break;
+    case 'cajaChica' :
+        require __DIR__ . '/app/controllers/cajaChica.controller.php';
+        break;
+    default:
+        http_response_code(404);
+        require __DIR__ . '/app/views/common/notFound.php';
+        break;
+}
 
 ?>

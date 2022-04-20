@@ -1,89 +1,104 @@
 <?php include('common/header.php') ?>
 
-<h1>reposicion de caja</h1>
+<h1>Reposición de caja chica</h1>
 
-<form action="." method="post">
+<form action="../controllers/reposicionCajaChica.controller.php" method="post">
+    <!-- DDRC-C: campo oculto para demostrar la accion que se va a realizar -->
+    <input type="text" hidden id="action_input" name="action">
+
     <div class="fieldContainer">
         <fieldset class="columns">
             <legend>Billetes</legend>
 
             <div class="field">
                 <label for="b_cien">¿Cuantos billetes de 100 hay en caja?</label>
-                <input required type="text" name="b_cien" id="b_cien">
+                <input required step="1" min="0" max="999" type="number" name="b_cien" id="b_cien">
             </div>
             <div class="field">
                 <label for="b_cincuenta">¿Cuantos billetes de 50 hay en caja?</label>
-                <input required type="text" name="b_cincuenta" id="b_cincuenta">
+                <input required step="1" min="0" max="999" type="number" name="b_cincuenta" id="b_cincuenta">
             </div>
             <div class="field">
                 <label for="b_veinte">¿Cuantos billetes de 20 hay en caja?</label>
-                <input required type="text" name="b_veinte" id="b_veinte">
+                <input required step="1" min="0" max="999" type="number" name="b_veinte" id="b_veinte">
             </div>
             <div class="field">
                 <label for="b_diez">¿Cuantos billetes de 10 hay en caja?</label>
-                <input required type="text" name="b_diez" id="b_diez">
+                <input required step="1" min="0" max="999" type="number" name="b_diez" id="b_diez">
             </div>
             <div class="field">
                 <label for="b_cinco">¿Cuantos billetes de 5 hay en caja?</label>
-                <input required type="text" name="b_cinco" id="b_cinco">
+                <input required step="1" min="0" max="999" type="number" name="b_cinco" id="b_cinco">
             </div>
             <div class="field">
                 <label for="b_uno">¿Cuantos billetes de 1 hay en caja?</label>
-                <input required type="text" name="b_uno" id="b_uno">
+                <input required step="1" min="0" max="999" type="number" name="b_uno" id="b_uno">
             </div>
         </fieldset>
         <fieldset class="columns">
             <legend>Monedas</legend>
             <div class="field">
                 <label for="m_un">¿Cuantas monedas de 1 dolar hay en caja?</label>
-                <input required type="text" name="m_un" id="m_un">
+                <input required step="1" min="0" max="999" type="number" name="m_un" id="m_un">
             </div>
             <div class="field">
-                <label for="m_cincuenta">¿Cuantas monedas de 50 monedas hay en caja?</label>
-                <input required type="text" name="m_cincuenta" id="m_cincuenta">
+                <label for="m_cincuenta">¿Cuantas monedas de 50 centavos hay en caja?</label>
+                <input required step="1" min="0" max="999" type="number" name="m_cincuenta" id="m_cincuenta">
             </div>
             <div class="field">
-                <label for="m_veincinco">¿Cuantas monedas de 25 monedas hay en caja?</label>
-                <input required type="text" name="m_veincinco" id="m_veincinco">
+                <label for="m_veinticinco">¿Cuantas monedas de 25 centavos hay en caja?</label>
+                <input required step="1" min="0" max="999" type="number" name="m_veinticinco" id="m_veinticinco">
             </div>
             <div class="field">
-                <label for="m_diez">¿Cuantas monedas de 10 monedas hay en caja?</label>
-                <input required type="text" name="m_diez" id="m_diez">
+                <label for="m_diez">¿Cuantas monedas de 10 centavos hay en caja?</label>
+                <input required step="1" min="0" max="999" type="number" name="m_diez" id="m_diez">
             </div>
             <div class="field">
-                <label for="m_cinco">¿Cuantas monedas de 5 monedas hay en caja?</label>
-                <input required type="text" name="m_cinco" id="m_cinco">
+                <label for="m_cinco">¿Cuantas monedas de 5 centavos hay en caja?</label>
+                <input required step="1" min="0" max="999" type="number" name="m_cinco" id="m_cinco">
             </div>
             <div class="field">
-                <label for="m_uno">¿Cuantas monedas de 1 monedas hay en caja?</label>
-                <input required type="text" name="m_uno" id="m_uno">
+                <label for="m_uno">¿Cuantas monedas de 1 centavos hay en caja?</label>
+                <input required step="1" min="0" max="999" type="number" name="m_uno" id="m_uno">
             </div>
 
         </fieldset>
     </div>
     <div class="actions">
-        <button type="submit">Guardar Saldos</button>
+        <button type="submit" id="create-settlement">Guardar Saldos y generar arqueo</button>
     </div>
 </form>
 
-<div class="detailMovesContainer">
-    <table class="detailMovesTable">
-        <tr>
-            <th class="table_header">fecha</th>
-            <th class="table_header">concepto</th>
-            <th class="table_header">valor</th>
-            <th class="table_header">autorizado por</th>
-            <th class="table_header">solicitado por</th>
-        </tr>
-        <tr>
-            <td>fdsfds</td> 
-        </tr>
-        
-        <?php echo 'Aqui va los datos buscados de la base de datos'; ?>
-    </table>
 
-    <button onclick="loadPettyCashSettlement()">solicitar la reposicion de caja chica</button>
-    <button onclick="goToMenu()">Regresar al menu</button>
+<div class="detailMovesContainer">
+    <h1>Listado de movimientos de la caja chica</h1>
+    <table class="detailMovesTable tablemanager">
+        <thead>
+        <tr>
+            <th class="table_header disableFilterBy disableSort">Concepto</th>
+            <th class="table_header disableFilterBy disableSort">Valor</th>
+            <th class="table_header">Autorizado por</th>
+            <th class="table_header">Solicitado por</th>
+            <th class="table_header">Fecha</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php if (isset($isEmpthy)) {
+            echo '<h1>no existen datos de movimientos</h1>';
+        } else if (isset($movimientos)) {
+            foreach ($movimientos as $key => $value) {
+                echo '<tr>';
+                echo '<td data-column="Concepto: ">' . $value['descripcion'] . '</td>';
+                echo '<td data-column="Valor: ">' . $value['monto_movimiento'] . '</td>';
+                echo '<td data-column="Autorizado por: ">' . $value['nsol'] . ' ' . $value['apsol'] . '</td>';
+                echo '<td data-column="Solicitado por: ">' . $value['nauth'] . ' ' . $value['apauth'] . '</td>';
+                echo '<td data-column="Fecha Movimiento: ">' . $value['fecha_movimiento'] . '</td>';
+                echo '</tr>';
+            }
+        } ?>
+        </tbody>
+    </table>
+    <button class="back-btn">Regresar al menu</button>
 
 </div>
 

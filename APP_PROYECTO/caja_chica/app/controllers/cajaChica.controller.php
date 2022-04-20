@@ -1,15 +1,30 @@
 <?php
 // DDRC-C: requiere el archivo de coneccion con la base de datos y el modelo de caja chica
-require('../models/connection.php');
-require('../models/cajaChica.php');
-require('../models/usuarios.php');
+require('./app/models/connection.php');
+require('./app/models/cajaChica.php');
+require('./app/models/usuarios.php');
 
 // DDRC-C:recupera los datos enviados al controlador y estructura los datos para el modelo
 $monto = filter_input(INPUT_POST, 'monto');
 $usuario = filter_input(INPUT_POST, 'usuario');
 $descripcion = filter_input(INPUT_POST, 'descripcion');
+$b_cien = filter_input(INPUT_POST, 'b_cien');
+$b_cincuenta = filter_input(INPUT_POST, 'b_cincuenta');
+$b_veinte = filter_input(INPUT_POST, 'b_veinte');
+$b_diez = filter_input(INPUT_POST, 'b_diez');
+$b_cinco = filter_input(INPUT_POST, 'b_cinco');
+$b_uno = filter_input(INPUT_POST, 'b_uno');
+$m_un = filter_input(INPUT_POST, 'm_un');
+$m_cincuenta = filter_input(INPUT_POST, 'm_cincuenta');
+$m_veinticinco = filter_input(INPUT_POST, 'm_veinticinco');
+$m_diez = filter_input(INPUT_POST, 'm_diez');
+$m_cinco = filter_input(INPUT_POST, 'm_cinco');
+$m_uno = filter_input(INPUT_POST, 'm_uno');
 $action = filter_input(INPUT_POST, 'action');
-$informacion = array("monto" => $monto, "usuario" => $usuario,"descripcion"=>$descripcion);
+$informacion = array("monto" => $monto, "usuario" => $usuario,"descripcion"=>$descripcion,"b_cien" => $b_cien,
+"b_cincuenta" => $b_cincuenta,"b_veinte" => $b_veinte,"b_diez" => $b_diez,"b_cinco" => $b_cinco,"b_uno" => $b_uno,
+"m_un" => $m_un,"m_cincuenta" => $m_cincuenta,"m_veinticinco" => $m_veinticinco,"m_diez" => $m_diez,
+"m_cinco" => $m_cinco,"m_uno" => $m_uno);
 
 // DDRC-C: comportamiento de la vista dependiendo de una acción y de si hay una caja chica en uso
 $current = getCurrentPettyBox();
@@ -33,6 +48,7 @@ if (gettype($current) === 'string') {
 switch ($action) {
     case 'crear':
         // DDRC-C: crea un nuevo registro de caja chica
+        echo($monto);
          echo addPettyBox($informacion);
         // unset($action);
         header('Refresh:0');
@@ -59,7 +75,7 @@ switch ($action) {
 
     default:
         $usuarios = getUserList();
-        include('../views/caja_chica.php');
+        include('./app/views/caja_chica.php');
         break;
 }
 

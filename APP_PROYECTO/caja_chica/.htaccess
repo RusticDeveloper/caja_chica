@@ -1,0 +1,10 @@
+
+#DDRC-C:abilita sobreescribir
+RewriteEngine On
+#DDRC-C: habilita la base para sobreescribir
+RewriteBase /APP_PROYECTO/caja_chica
+#DDRC-C: reenvia el archivo o fichero si existe
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+#DDRC-C: envia cada solicitud directamente al archivo index.php
+RewriteRule ^(.+)$ index.php [QSA,L]

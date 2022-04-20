@@ -1,8 +1,13 @@
-<?php include('common/header.php') ?>
+<?php include('common/header.php')?>
 
-<h1>Reporte</h1>
-
-<h2>aqui se generaran los reportes de caja chica</h2>
-<iframe src="https://www.google.com/doodles" frameborder="1" width="100%" height="1050px"></iframe>
-
+<h1>Reportes</h1>
+<button class="back-btn">Regresar</button>
+<div class="report-container">
+    <div id="report_settlement">
+        <h2>Reporte de arqueos</h2>
+    </div>
+    <div id="report_moves">
+        <h2>Reporte de movimientos</h2>
+    </div>
+    </div>
 <?php include('common/footer.php') ?>
