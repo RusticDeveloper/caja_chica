@@ -1,0 +1,212 @@
+/* DDRC-C: configuracion general para las vistas */
+* {
+    margin    : 0;
+    padding   : 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    /* background: rgb(238, 174, 202); */
+    /* background: linear-gradient(58deg, rgba(238, 174, 202, 1) 0%, rgba(148, 187, 233, 1) 100%); */
+}
+
+h1 {
+    margin: 25px;
+    text-align: center;
+    justify-self: center;
+}
+
+h2 {
+    margin: 25px;
+}
+#for_numrows{
+    padding-right: 10%;
+    display: inline-flex;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 1.1em;
+}
+#for_filter_by{
+    font-size: 1.1em;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.back-btn {
+    margin   : 1.5%;
+    font-size: 1.5em;
+    padding  : 2%;
+    background-color: #5FCDD9;
+    border-top-left-radius   : 50px;
+    border-bottom-left-radius: 50px;
+}
+
+button {
+    background-color: #075285;
+    font-size: 1.5em;
+    margin   : 1.5%;
+    padding  : 1%;
+    color: white;
+}
+button:hover{
+    background-color: #092e47;
+}
+.field {
+    margin   : 1.1%;
+    padding  : 1%;
+    font-size: 1.5rem;
+}
+
+.fieldContainer {
+    display       : flex;
+    flex-direction: column;
+}
+
+.columns {
+    padding: 1%;
+    margin : 1.5%;
+    width  : 100%;
+}
+
+.columns label {
+    font-size   : 1.3em;
+    padding     : 1%;
+    border      : 10px;
+}
+
+.columns input {
+    padding: 1%;
+    width  : 100%;
+}
+
+input, textarea, select, label{
+    font-size: 1.3em;
+}
+
+.report-container{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.report-container div{
+    width        : 40%;
+    border       : 5px solid #172026;
+    border-radius: 50px;
+    padding: 2%;
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+fieldset>legend{
+    font-size: 2em;
+}
+fieldset{
+    border: 5px solid #172026;
+}
+/* DDRC-C: estilos de tablas */
+table {
+    width          : 80%;
+    border-collapse: collapse;
+    margin         : 50px auto;
+}
+
+/* Zebra striping */
+tr:nth-of-type(odd) {
+    background: #eee;
+}
+
+th {
+    background : #027373;
+    color      : white;
+    font-weight: bold;
+}
+
+
+
+td,
+th {
+    padding   : 10px;
+    border    : 1px solid #ccc;
+    text-align: left;
+    font-size : 1.3em;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+
+/* DDRC-C: configuracion para hacer reponsive las paginas */
+
+/* dispositivos medianos con pantallas de 600px en adelante */
+@media only screen and (min-width: 600px) {
+
+    .fieldContainer {
+        flex-direction: row;
+    }
+
+    .columns {
+        width: 100%;
+    }
+
+
+}
+
+/* dispositivos grandes con pantallas de 992px en adelante */
+@media only screen and (min-width: 992px) {
+    .fieldContainer {
+        flex-direction: row;
+    }
+
+    .columns {
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 760px) {
+    table {
+        width: 100%;
+    }
+
+    /* Force table to not be like tables anymore */
+    table,
+    thead,
+    tbody,
+    th,
+    td,
+    tr {
+        display: block;
+    }
+
+    /* Hide table headers (but not display: none;, for accessibility) */
+    thead tr {
+        position: absolute;
+        top     : -9999%;
+        left    : -9999%;
+    }
+
+    tr {
+        border: 1px solid #ccc;
+    }
+
+    td {
+        /* Behave  like a "row" */
+        border          : none;
+        background-color: #eee;
+        border-bottom   : 1px solid #027373;
+        position        : relative;
+        padding-left    : 50%;
+        text-align:end ;
+    }
+
+    td:before {
+        /* Now like a table header */
+        position     : absolute;
+        /* Top/left values mimic padding */
+        top          : 6px;
+        left         : 6px;
+        width        : 45%;
+        padding-right: 10px;
+        white-space  : nowrap;
+        /* Label the data */
+        content      : attr(data-column);
+        color      : #000;
+        font-weight: bold;
+    }
+}
