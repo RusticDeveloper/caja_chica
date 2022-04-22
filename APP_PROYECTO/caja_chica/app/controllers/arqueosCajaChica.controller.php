@@ -1,8 +1,8 @@
 <?php
 // DDRC-C: requiere el archivo de coneccion con la base de datos y el modelo de caja chica
-require('../models/connection.php');
-require('../models/arqueosCajaChica.php');
-require('../models/movimientosCajaChica.php');
+require('./app/models/connection.php');
+require('./app/models/arqueosCajaChica.php');
+require('./app/models/movimientosCajaChica.php');
 
 
 // DDRC-C:recupera los datos enviados al controlador y estructura los datos para el modelo
@@ -58,8 +58,9 @@ switch ($action) {
     case 'crear':
         // DDRC-C: crea un nuevo registro de caja chica
          echo addPettyBoxSettlement($informacion);
+        echo deletePettyBox($idPettyBox);
         // unset($action);
-        header('Location:listaArqueosCajaChica.controller.php');
+        header('Location:settlements-list');
         echo $total_caja . '<br>';
         echo $total_movimientos . '<br>';
         echo ($total_caja + $total_movimientos) . '<br>';
@@ -82,6 +83,6 @@ switch ($action) {
     default:
         // $usuarios = getUserList();
 
-        include('../views/arqueos.php');
+        include('./app/views/arqueos.php');
         break;
 }

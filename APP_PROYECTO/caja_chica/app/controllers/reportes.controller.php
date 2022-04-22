@@ -2,9 +2,9 @@
 
 // DDRC-C:obtiene datos de la base de datos y reportes
 
-include('../models/connection.php');
+include('./app/models/connection.php');
 // DDRC-C: utiliza la libreria para generar reportes
-require('../core/dependencies/TCPDF/tcpdf.php');
+require('./app/core/dependencies/TCPDF/tcpdf.php');
 // DDRC-C: objeto con los valores por defecto para los reportes
 $report = new TCPDF('P', 'mm', 'A4');
 //set metadata
@@ -60,7 +60,7 @@ switch ($accion) {
         break;
 
     default:
-        include('../views/reportes.php');
+        include('./app/views/reportes.php');
         break;
 }
 
@@ -70,7 +70,7 @@ function ReporteMovimientos()
     global $report;
 
     // DDRC-C: datos de la base
-    include('../models/movimientosCajaChica.php');
+    include('./app/models/movimientosCajaChica.php');
     $listaMovimientos = getMoves();
 
     // DDRC-C: contruir el reporte
@@ -98,7 +98,8 @@ function ReporteMovimientos()
 
     // imprime la tabla html
     $report->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
-
+// Clean any content of the output buffer
+ob_end_clean();
     // DDRC-C: imprime el reporte
     $report->output('Reporte-Movimientos.pdf', 'I');
 }
@@ -108,8 +109,8 @@ function ReporteArqueos()
     global $report;
 
     // DDRC-C: datos de la base
-    include('../models/cajaChica.php');
-    include('../models/arqueosCajaChica.php');
+    include('./app/models/cajaChica.php');
+    include('./app/models/arqueosCajaChica.php');
     $caja = getCurrentPettyBox();
     $idcaja = $caja['id'];
     $listaArqueos = getPettyBoxSettlements($idcaja);
@@ -141,7 +142,8 @@ function ReporteArqueos()
 
     // imprime la tabla html
     $report->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
-
+// Clean any content of the output buffer
+ob_end_clean();
     // DDRC-C: imprime el reporte
     $report->output('Reporte-Arqueos.pdf', 'I');
 }
@@ -151,8 +153,8 @@ function ReporteArqueo($idReporte)
     global $report;
 
     // DDRC-C: datos de la base
-    include('../models/arqueosCajaChica.php');
-    include('../models/movimientosCajaChica.php');
+    include('./app/models/arqueosCajaChica.php');
+    include('./app/models/movimientosCajaChica.php');
     
     $caja=getCurrentPettyBox();
     $arqueo = getPettyBoxSettlement($idReporte);
@@ -302,7 +304,8 @@ function ReporteArqueo($idReporte)
 
     // imprime la tabla html
     $report->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
-
+// Clean any content of the output buffer
+ob_end_clean();
     // DDRC-C: imprime el reporte
     $report->output('Reporte-Arqueos.pdf', 'I');
 }

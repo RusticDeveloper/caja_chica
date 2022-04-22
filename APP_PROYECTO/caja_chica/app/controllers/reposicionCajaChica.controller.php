@@ -1,9 +1,9 @@
 <?php
 // DDRC-C: requiere el archivo de coneccion con la base de datos y el modelo de caja chica
-require('../models/connection.php');
-// require('../models/cajaChica.php');
-require('../models/arqueosCajaChica.php');
-require('../models/movimientosCajaChica.php');
+require('./app/models/connection.php');
+// require('./app/models/cajaChica.php');
+require('./app/models/arqueosCajaChica.php');
+require('./app/models/movimientosCajaChica.php');
 
 
 // DDRC-C:recupera los datos enviados al controlador y estructura los datos para el modelo
@@ -12,7 +12,7 @@ $current = getCurrentPettyBox();
 $idPettyBox = $current['id'];
 $montoCC = floatval($current['monto_caja_chica']);
 
-$informacion1 = array("monto" => $current['monto_caja_chica'], "usuario" => $current['id_usuario'],"descripcion"=>"Caja Creada en reposicion");
+$informacion1 = array("monto" => $current['monto_caja_chica'], "usuario" => $current['id_usuario'],"descripcion"=>"Caja Creada por reposición");
 // DDRC-C: Datos de los movimientos
 $movimientos = getMoves($idPettyBox);
 $total_movimientos = 0;
@@ -68,26 +68,7 @@ switch ($action) {
         echo 'entro a crear y algo mas';
         break;
 
-    case 'actualizar':
-        // DDRC-C: actualiza un registro de caja chica 
-        //  echo updatePettyBox($idPettyBox);
-        // unset($action);
-        // header('Refresh:0');
-        
-        echo 'entro a actualizar';
-        break;
-
-    case 'eliminar':
-        // DDRC-C: elimina un registro de caja chica
-        //  echo deletePettyBox($idPetty);
-        // unset($action);
-        // header('Refresh:0');
-        
-        echo 'entro a eliminar';
-        break;
-
     default:
-        
-        include('../views/reposicion.php');
+        include('./app/views/reposicion.php');
         break;
 }

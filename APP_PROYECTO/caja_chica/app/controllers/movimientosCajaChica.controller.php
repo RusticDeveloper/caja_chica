@@ -1,8 +1,8 @@
 <?php
 // DDRC-C: requiere el archivo de coneccion con la base de datos y el modelo de caja chica
-require('../models/connection.php');
-require('../models/usuarios.php');
-require('../models/movimientosCajaChica.php');
+require('./app/models/connection.php');
+require('./app/models/usuarios.php');
+require('./app/models/movimientosCajaChica.php');
 session_start();
 // DDRC-C:recupera los datos enviados al controlador y estructura los datos para el modelo
 $monto = filter_input(INPUT_POST, 'monto_mov');
@@ -32,7 +32,7 @@ $current = getCurrentPettyBox();
 
 // DDRC-C: devuelve a la lista de movimientos si no existe una caja chica
 if (gettype($current) === 'string') {
-    header('Location:listaMovimientosCajaChica.controller.php');
+    header('Location:moves-list');
     // exit('no exite una caja chica');
 } else {
 
@@ -43,17 +43,19 @@ if (gettype($current) === 'string') {
     switch ($action) {
         case 'crear':
             // DDRC-C: crea un nuevo registro de caja chica
+            // echo $idPettyBox.'<br>';
+            // echo $currentValue;
             $actualKey = getAuth($usuario_autoriza);
-            $currentValue = floatval(getCurrentPettyBoxValue($idPettyBox));
+            $currentValue = floatval(getCurrentPettyBoxValue($idPettyBox)['saldo_actual_caja_chica']);
             if ($currentValue<=0 || $monto>$currentValue) {
-                header('Location:movimientosCajaChica.controller.php?action=fsf');
+                header('Location:move-performance?action=fsf');
                 $_SESSION['noFunds'] = 'La caja chica no tiene fondos, haga una reposicion de fondos';
             } else {
                 if (md5($authKey) === $actualKey['confirma_clave']) {
                     echo addMove($informacion, $file);
-                    header('Location:listaMovimientosCajaChica.controller.php');
+                    header('Location:moves-list');
                 } else {
-                    header('Location:movimientosCajaChica.controller.php?action=CREAR');
+                    header('Location:move-performance?action=CREAR');
                     $_SESSION['invalidKey'] = 'la clave de autorizacion no coincide';
                     
                 }
@@ -63,19 +65,19 @@ if (gettype($current) === 'string') {
         case 'actualizar':
             // DDRC-C: actualiza un registro de caja chica 
             echo updateMove($idMove, $informacion, $file);
-            header('Location:listaMovimientosCajaChica.controller.php');
+            header('Location:moves-list');
             break;
 
         case 'anular':
             // DDRC-C: elimina un registro de caja chica
             echo deleteMove($idPetty, $informacion);
-            header('Location:listaMovimientosCajaChica.controller.php');
+            header('Location:moves-list');
             break;
 
         default:
             $usuarios = getUserList();
             
-            include('../views/movimientos.php');
+            include('./app/views/movimientos.php');
             // echo $futureAction;
             // echo $action;
             // echo $idMove;

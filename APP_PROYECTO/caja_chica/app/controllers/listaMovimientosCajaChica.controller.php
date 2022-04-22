@@ -19,25 +19,25 @@ $idMove = filter_input(INPUT_GET, 'identificador');
 switch ($action) {
     case 'CREAR':
         // DDRC-C: crea un nuevo registro de caja chica
-        header('location:movimientosCajaChica.controller.php?action=' . $action);
+        header('location:move-performance?action=' . $action);
         echo 'entro a crear';
         break;
 
     case 'REVISAR':
         // DDRC-C: actualiza un registro de caja chica 
-        header('location:movimientosCajaChica.controller.php?action=' . $action . '&idMove=' . $idMove);
+        header('location:move-performance?action=' . $action . '&idMove=' . $idMove);
         echo 'entro a revisar';
         break;
 
     case 'ACTUALIZAR':
         // DDRC-C: elimina un registro de caja chica
-        header('location:movimientosCajaChica.controller.php?action=' . $action . '&idMove=' . $idMove);
+        header('location:move-performance?action=' . $action . '&idMove=' . $idMove);
         echo 'entro a actualizar';
         break;
 
     case 'ANULAR':
         // DDRC-C: elimina un registro de caja chica
-        header('location:movimientosCajaChica.controller.php?action=' . $action . '&idMove=' . $idMove);
+        header('location:move-performance?action=' . $action . '&idMove=' . $idMove);
         echo 'entro a eliminar';
         break;
 

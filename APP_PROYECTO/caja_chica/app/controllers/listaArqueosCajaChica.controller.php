@@ -1,8 +1,8 @@
 <?php
 // DDRC-C: requiere el archivo de coneccion con la base de datos y el modelo de caja chica
-require('../models/connection.php');
-require('../models/cajaChica.php');
-require('../models/arqueosCajaChica.php');
+require('./app/models/connection.php');
+require('./app/models/cajaChica.php');
+require('./app/models/arqueosCajaChica.php');
 
 // DDRC-C:recupera los datos enviados al controlador y estructura los datos para el modelo
 
@@ -26,7 +26,7 @@ switch ($action) {
         break;
     case 'CREAR':
         // DDRC-C: crea un nuevo registro de caja chica
-        header('location:arqueosCajaChica.controller.php?action=' . $action);
+        header('location:settlement?action=' . $action);
         echo 'entro a crear';
         break;
 
@@ -36,9 +36,9 @@ switch ($action) {
         if (gettype($arqueos) === 'string') {
             $isEmpthy = true;
         }
-        include('../views/listaArqueos.php');
+        include('./app/views/listaArqueos.php');
     }else{
-        include('../views/sinCajaChica.php');
+        include('./app/views/sinCajaChica.php');
     }
         break;
 }
