@@ -103,7 +103,7 @@
             <button type="submit" id="create-pettybox-btn">Crear caja chica</button>
         <?php } else { ?>
             <button type="submit" id="update-pettybox-btn">Actualizar caja chica</button>
-            <button type="submit" id="delete-pettybox-btn">Eliminar caja chica</button>
+            <!-- <button type="submit" id="delete-pettybox-btn">Eliminar caja chica</button> -->
         <?php } ?>
     </div>
 </form>

@@ -83,18 +83,21 @@ input, textarea, select, label{
 }
 
 .report-container{
-    display: flex;
-    justify-content: space-evenly;
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-gap: 20px;
+    margin: 2%;
 }
 
 .report-container div{
-    width        : 40%;
     border       : 5px solid #172026;
     border-radius: 50px;
-    padding: 2%;
+    padding: 15%;
     font-size: 2rem;
     cursor: pointer;
 }
+
+
 
 fieldset>legend{
     font-size: 2em;
@@ -137,6 +140,7 @@ th {
 /* dispositivos medianos con pantallas de 600px en adelante */
 @media only screen and (min-width: 600px) {
 
+
     .fieldContainer {
         flex-direction: row;
     }
@@ -160,6 +164,14 @@ th {
 }
 
 @media only screen and (max-width: 760px) {
+    .report-container{
+        grid-template-columns: auto;
+    }
+
+    .report-container div{
+        font-size: 1.2rem;
+    }
+
     table {
         width: 100%;
     }

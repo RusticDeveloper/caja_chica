@@ -1,4 +1,7 @@
-<?php include('common/header.php') ?>
+<?php include('common/header.php');
+$tipoMovimiento=array('INGRESO','EGRESO');
+$tipoPago=array('EFECTIVO','CHEQUE', 'TARJETA', 'TRANSFERENCIA', 'CREDITO');
+?>
 
 <h1>movimientos de caja chica</h1>
 
@@ -69,6 +72,27 @@
                         ?>
                         </select>
 
+            </div>
+            <div class="field">
+                <label for="tipoMovimiento">Tipo de movimiento:</label>
+                <select name="tipoMovimiento" id="tipoMovimiento" required>
+                <?php 
+                foreach ($tipoPago as $key => $value) {
+                    echo '<option value="'.$value.'">'.$value.'</option>';
+                }
+                ?>
+                </select>
+
+            </div>
+            <div class="field">
+                <label for="tipoPago">Tipo de pago:</label>
+                <select name="tipoPago" id="tipoPago" required>
+                <?php 
+                foreach ($tipoMovimiento as $key => $value) {
+                    echo '<option value="'.$value.'">'.$value.'</option>';
+                }
+                ?>
+                </select>
             </div>
             <div class="field">
                 <label for="monto_mov">Monto del movimiento:</label>

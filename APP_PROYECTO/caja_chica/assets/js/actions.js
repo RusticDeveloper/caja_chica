@@ -34,6 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let crearArqueo = document.getElementById("create-settlement");
     let crearReporteArqueo = document.getElementById("report_settlement");
     let crearReporteMovimiento = document.getElementById("report_moves");
+    let estadoResultados = document.getElementById("report_result_state");
     let b_cien = document.getElementById("b_cien");
     let b_cincuenta = document.getElementById("b_cincuenta");
     let b_veinte = document.getElementById("b_veinte");
@@ -112,6 +113,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (crearReporteArqueo) {
         crearReporteArqueo.addEventListener("click", goToReport.bind(this, "moves"), false);
+    }
+
+    if (estadoResultados) {
+        estadoResultados.addEventListener("click", goToReport.bind(this, "resultState"), false);
     }
 
     if (crearReporteMovimiento) {

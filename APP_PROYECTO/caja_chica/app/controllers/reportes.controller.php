@@ -5,6 +5,12 @@
 include('./app/models/connection.php');
 // DDRC-C: utiliza la libreria para generar reportes
 require('./app/core/dependencies/TCPDF/tcpdf.php');
+
+// DDRC-C obtienen valores de la Base de datos
+$accion = filter_input(INPUT_GET, 'action');
+$id = filter_input(INPUT_GET, 'identificador');
+
+
 // DDRC-C: objeto con los valores por defecto para los reportes
 $report = new TCPDF('P', 'mm', 'A4');
 //set metadata
@@ -14,7 +20,7 @@ $report->setTitle('Proyecto caja Chica');
 $report->setSubject('APP Proyecto');
 $report->setKeywords('caja chica, clinica divino niño, reporte');
 //set header and footer data
-$report->setHeaderData('', 10, 'REPORTES', 'reporte de caja chica', array(0, 0, 0), array(0, 0, 0));
+$report->setHeaderData('', 10, 'CLINICA DIVINO NIÑO', 'REPORTES', array(0, 0, 0), array(0, 0, 0));
 $report->setFooterData(array(250, 2, 21), array(6, 255, 33));
 // set header and footer fonts
 $report->setHeaderFont(array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
@@ -40,11 +46,8 @@ $report->SetFont('dejavusans', '', 14, '', true);
 // DDRC-C: crea una nueva pagina
 $report->AddPage();
 
-// DDRC-C obtienen valores de la Base de datos
 
-$accion = filter_input(INPUT_GET, 'action');
-$id = filter_input(INPUT_GET, 'identificador');
-
+// DDRC-C: funciones para los distintos reportes
 switch ($accion) {
     case 'moves':
         // echo 'entro a movmientos';
@@ -58,13 +61,18 @@ switch ($accion) {
         // echo 'entro a movmientos';
         ReporteArqueo($id);
         break;
+    case 'resultState':
+        echo 'entro a estado de resultados';
+        ReporteEstadoDeResultdatos(2);
+        break;
 
     default:
         include('./app/views/reportes.php');
         break;
 }
 
-// DDRC-C: funciones para los distintos reportes
+
+// DDRC-C: reporte de movimientos
 function ReporteMovimientos()
 {
     global $report;
@@ -98,12 +106,13 @@ function ReporteMovimientos()
 
     // imprime la tabla html
     $report->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
-// Clean any content of the output buffer
-ob_end_clean();
+    // limpia cualquier caracter antes de mostrar el reporte
+    ob_end_clean();
     // DDRC-C: imprime el reporte
     $report->output('Reporte-Movimientos.pdf', 'I');
 }
 
+// DDRC-C: reporte de arqueos
 function ReporteArqueos()
 {
     global $report;
@@ -142,12 +151,13 @@ function ReporteArqueos()
 
     // imprime la tabla html
     $report->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
-// Clean any content of the output buffer
-ob_end_clean();
+    // limpia cualquier caracter antes de mostrar el reporte
+    ob_end_clean();
     // DDRC-C: imprime el reporte
     $report->output('Reporte-Arqueos.pdf', 'I');
 }
 
+// DDRC-C: reporte de un arqueo especifico
 function ReporteArqueo($idReporte)
 {
     global $report;
@@ -155,19 +165,19 @@ function ReporteArqueo($idReporte)
     // DDRC-C: datos de la base
     include('./app/models/arqueosCajaChica.php');
     include('./app/models/movimientosCajaChica.php');
-    
-    $caja=getCurrentPettyBox();
+
+    $caja = getCurrentPettyBox();
     $arqueo = getPettyBoxSettlement($idReporte);
     $listaMovimientos = getMoves();
 
-    $nombre=$caja['nombres'].'  '.$caja['apellidos'];
-    $cantidad=$caja['monto_caja_chica'];
-    $fecha=$caja['fecha_apertura'];
-    $sumaBilletes=floatval((intval($arqueo['billetes_cien']) * 100)+(intval($arqueo['billetes_cincuenta']) * 50)+(intval($arqueo['billetes_veinte']) * 20)+
-    (intval($arqueo['billetes_diez']) * 10)+(intval($arqueo['billetes_cinco']) * 5)+(intval($arqueo['billetes_uno'])));
+    $nombre = $caja['nombres'] . '  ' . $caja['apellidos'];
+    $cantidad = $caja['monto_caja_chica'];
+    $fecha = $caja['fecha_apertura'];
+    $sumaBilletes = floatval((intval($arqueo['billetes_cien']) * 100) + (intval($arqueo['billetes_cincuenta']) * 50) + (intval($arqueo['billetes_veinte']) * 20) +
+        (intval($arqueo['billetes_diez']) * 10) + (intval($arqueo['billetes_cinco']) * 5) + (intval($arqueo['billetes_uno'])));
 
-    $sumaMonedas=floatval((intval($arqueo['monedas_dolar']))+(intval($arqueo['monedas_cincuenta']) * 0.5)+(intval($arqueo['monedas_veinticinco']) * 0.25)+
-    (intval($arqueo['monedas_diez']) * 0.1)+(intval($arqueo['monedas_cinco']) * 0.05)+(intval($arqueo['monedas_uno']) * 0.01));
+    $sumaMonedas = floatval((intval($arqueo['monedas_dolar'])) + (intval($arqueo['monedas_cincuenta']) * 0.5) + (intval($arqueo['monedas_veinticinco']) * 0.25) +
+        (intval($arqueo['monedas_diez']) * 0.1) + (intval($arqueo['monedas_cinco']) * 0.05) + (intval($arqueo['monedas_uno']) * 0.01));
     // DDRC-C: contruir el reporte
     if (gettype($arqueo) === 'string') {
         $html = '<h1>No existe el arqueo</h1>';
@@ -292,20 +302,130 @@ function ReporteArqueo($idReporte)
 
         <tr style="background-color:grey;color:white;">
         <td colspan="2">Total en caja chica:</td>
-        <td>'. $arqueo['total_caja_chica'] . '</td>
+        <td>' . $arqueo['total_caja_chica'] . '</td>
         </tr>  
 
 
         </table>
         <hr>
-        <h3>Observaciones del arqueo:'. $arqueo['descripcion'] . '</h3>
+        <h3>Observaciones del arqueo:' . $arqueo['descripcion'] . '</h3>
         ';
     }
 
     // imprime la tabla html
     $report->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
-// Clean any content of the output buffer
-ob_end_clean();
+    // limpia cualquier caracter antes de mostrar el reporte
+    ob_end_clean();
+    // DDRC-C: imprime el reporte
+    $report->output('Reporte-Arqueos.pdf', 'I');
+}
+
+
+//******************  DDRC-C: reporte de estado de resultados **************/
+//******************* Este reporte se puede mover a otro modulo en cualquier momento ****************/
+function ReporteEstadoDeResultdatos( $idEstadoResultados,$fechaInicial='01-01-2020', $fechaFinal='01-01-2022')
+{
+    global $report;
+
+    // DDRC-C: datos de la base
+    include('./app/models/estadoDeResultados.php');
+
+
+    $estadoResultados = getResultStateData($idEstadoResultados);
+    $coso = 'fdsfsd';
+    // DDRC-C: contruir el reporte
+    if (gettype($idEstadoResultados) === 'string') {
+        $html = '<h1>No existen valores en este rango de tiempo</h1>';
+    } else {
+        $html = <<<EOD
+    <h4 style="text-align:center;">Estado de resultados</h4>
+    <h4 style="text-align:center;">del $fechaInicial, al $fechaFinal</h4>    
+    <h4 style="text-align:center;">Expresado en dolares</h4>    
+    <br>
+    <br>
+    <table cellspacing="0" cellpadding="1" border="1" style="border-color:gray;text-align:center;">
+        <tr>
+            <th style="background-color:skyblue;color:black;text-align:start;">Ingresos o ventas netas</th>
+            <td>$estadoResultados[DEBE]</td>
+        </tr>
+        
+        <tr>
+            <th style="background-color:skyblue;color:black;text-align:start;">– Costes directos de los bienes vendidos</th>
+            <td>$estadoResultados[HABER]</td>
+        </tr>
+        
+        <tr>
+            <th style="background-color:skyblue;color:black;text-align:start;">Margen Bruto</th>
+            <td>$estadoResultados[SALDODEUDOR]</td>
+        </tr>
+        
+        <tr>
+            <th style="background-color:skyblue;color:black;text-align:start;">– Gastos generales, de personal y administrativos</th>
+            <td>$estadoResultados[SALDOACREEDOR]</td>
+        </tr>
+        
+        <tr>
+            <th style="background-color:skyblue;color:black;text-align:start;">EBITDA</th>
+            <td>$estadoResultados[AJUSTEDEBE]</td>
+        </tr>
+        
+        <tr>
+            <th style="background-color:skyblue;color:black;text-align:start;">– Gastos de amortización y provisiones</th>
+            <td>$estadoResultados[AJUSTEHABER]</td>
+        </tr>
+        
+        <tr>
+            <th style="background-color:skyblue;color:black;text-align:start;">Beneficio antes de intereses e impuestos (BAIT) o EBIT</th>
+            <td>$estadoResultados[BALAJUSDEUDOR]</td>
+        </tr>
+        
+        <tr>
+            <th style="background-color:skyblue;color:black;text-align:start;">+ Ingresos extraordinarios</th>
+            <td>$estadoResultados[BALAJUSACREEDOR]</td>
+        </tr>
+        
+        <tr>
+            <th style="background-color:skyblue;color:black;text-align:start;">– Gastos extraordinarios</th>
+            <td>$estadoResultados[BALAJUSACREEDOR]</td>
+        </tr>
+        
+        <tr>
+            <th style="background-color:skyblue;color:black;text-align:start;">Resultado ordinario</th>
+            <td>$estadoResultados[BALAJUSACREEDOR]</td>
+        </tr>
+        
+        <tr>
+            <th style="background-color:skyblue;color:black;text-align:start;">+ Ingresos financieros</th>
+            <td>$estadoResultados[BALAJUSACREEDOR]</td>
+        </tr>
+        
+        <tr>
+            <th style="background-color:skyblue;color:black;text-align:start;">– Gastos financieros</th>
+            <td>$estadoResultados[BALAJUSACREEDOR]</td>
+        </tr>
+        
+        <tr>
+            <th style="background-color:skyblue;color:black;text-align:start;">Beneficio antes de impuestos (BAT) o EBT</th>
+            <td>$estadoResultados[BALAJUSACREEDOR]</td>
+        </tr>
+        
+        <tr>
+            <th style="background-color:skyblue;color:black;text-align:start;">– Impuesto de sociedades</th>
+            <td>$estadoResultados[BALAJUSACREEDOR]</td>
+        </tr>
+        
+        <tr>
+            <th style="background-color:skyblue;color:black;text-align:start;">BENEFICIO NETO</th>
+            <td>$estadoResultados[BALAJUSACREEDOR]</td>
+        </tr>
+        </table>
+    EOD;
+    }
+
+    // imprime la tabla html
+    $report->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
+    // limpia cualquier caracter antes de mostrar el reporte
+    ob_end_clean();
     // DDRC-C: imprime el reporte
     $report->output('Reporte-Arqueos.pdf', 'I');
 }

@@ -6,14 +6,15 @@ date_default_timezone_set('America/Lima');
 
 require('cajaChica.php');
 require('./app/controllers/archivos.controller.php');
-
+//*TODO: hacer que se sumen o resten dependiendo el valor de tipo movimiento */
 function addMove($information, $archivo = 'noFile')
 {
    // DDRC-C: variable global de la base de datos
    global $db;
    // DDRC-C:consulta y ejecución de una petición realizada con PDO
-   $query = 'INSERT INTO movimientos_caja_chica (caja_chica_id,monto_movimiento,usuario_solicita,usuario_autoriza,fecha_movimiento,descripcion,url_comprobante)
-    VALUES (:idCC,:monto,:solicita,:autoriza,:f_movimiento,:descripcion,:urlC);';
+   $query = 'INSERT INTO movimientos_caja_chica (caja_chica_id,monto_movimiento,usuario_solicita
+   ,usuario_autoriza,fecha_movimiento,descripcion,url_comprobante,tipo_movimiento,tipo_pago)
+    VALUES (:idCC,:monto,:solicita,:autoriza,:f_movimiento,:descripcion,:urlC,:TMOV,:TPAG);';
 
    $statement = $db->prepare($query);
 
@@ -33,6 +34,8 @@ function addMove($information, $archivo = 'noFile')
    $statement->bindValue(':monto', $information['monto']);
    $statement->bindValue(':idCC', $information['idCajaChica']);
    $statement->bindValue(':autoriza', $information['autoriza']);
+   $statement->bindValue(':TMOV', $information['tipoMovimiento']);
+   $statement->bindValue(':TPAG', $information['tipoPago']);
    $statement->bindValue(':descripcion', $information['descripcion']);
    $statement->bindValue(':f_movimiento', date('Y-m-d H:i:s'));
 

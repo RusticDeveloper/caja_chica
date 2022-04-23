@@ -8,7 +8,7 @@
     <!-- DDRC-C: estilos generales para las paginas-->
     <link rel="stylesheet" href="./assets/css/general.css">
     <!-- DDRC-C: icono personalizado para la pestaña -->
-    <link rel="shortcut icon" type="image/svg" href="./assets/img/favicon.svg">
+    <link rel="shortcut icon" type="image/jpg" href="./assets/img/favicon.jpg">
     <title>APP PROYECTO</title>
 </head>
 

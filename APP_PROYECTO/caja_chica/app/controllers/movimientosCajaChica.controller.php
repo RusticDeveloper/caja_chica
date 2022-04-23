@@ -8,13 +8,16 @@ session_start();
 $monto = filter_input(INPUT_POST, 'monto_mov');
 $usuario_autoriza = filter_input(INPUT_POST, 'autorizado');
 $usuario_solicita = filter_input(INPUT_POST, 'solicitado');
+$tipo_movimiento = filter_input(INPUT_POST, 'solicitado');
+$tipo_pago = filter_input(INPUT_POST, 'solicitado');
 $descripcion = filter_input(INPUT_POST, 'description');
 $comprobante = filter_input(INPUT_POST, 'comprobante');
 $authKey = filter_input(INPUT_POST, 'clave_auth');
 $action = filter_input(INPUT_POST, 'action');
 $file = (isset($_FILES['comprovante'])) ? $_FILES['comprovante'] : 'noFile';
 $informacion = array(
-    "monto" => $monto, "solicita" => $usuario_solicita, "autoriza" => $usuario_autoriza, "descripcion" => $descripcion
+    "monto" => $monto, "solicita" => $usuario_solicita, "autoriza" => $usuario_autoriza,
+     "descripcion" => $descripcion, "tipoPago"=>$tipo_pago,"tipoMovimiento"=>$tipo_movimiento
 );
 
 // DDRC-C: VARIABLES USADAS PARA ACTUALIZAR ANULAR Y REVISAR UN MOVIMIENTO
@@ -57,7 +60,6 @@ if (gettype($current) === 'string') {
                 } else {
                     header('Location:move-performance?action=CREAR');
                     $_SESSION['invalidKey'] = 'la clave de autorizacion no coincide';
-                    
                 }
             }            
             break;
