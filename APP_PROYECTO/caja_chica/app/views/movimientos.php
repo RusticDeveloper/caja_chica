@@ -1,6 +1,6 @@
 <?php include('common/header.php');
-$tipoMovimiento=array('INGRESO','EGRESO');
-$tipoPago=array('EFECTIVO','CHEQUE', 'TARJETA', 'TRANSFERENCIA', 'CREDITO');
+$tipoMovimiento = array('INGRESO', 'EGRESO');
+$tipoPago = array('EFECTIVO', 'CHEQUE', 'TARJETA', 'TRANSFERENCIA', 'CREDITO');
 ?>
 
 <h1>movimientos de caja chica</h1>
@@ -15,10 +15,12 @@ $tipoPago=array('EFECTIVO','CHEQUE', 'TARJETA', 'TRANSFERENCIA', 'CREDITO');
         ?>
         <fieldset class="columns">
             <legend>Información de movimientos</legend>
+            <!-- DDRC-C: saldo que una caja chica tiene al momento de elaborar un movimiento. -->
+            <label>Saldo actual en caja chica: <?= $saldoCC ?></label>
             <!-- DDRC-C: campo oculto para demostrar la accion que se va a realizar -->
             <input type="text" hidden id="action_input" name="action">
             <div class="field">
-                <label for="autorizado">Autorizado por :</label>
+                <label for="autorizado">Autorizado por:</label>
                 <?php if ($futureAction === 'CREAR') { ?>
                     <select name="autorizado" id="autorizado" required>
                     <?php } else { ?>
@@ -75,23 +77,37 @@ $tipoPago=array('EFECTIVO','CHEQUE', 'TARJETA', 'TRANSFERENCIA', 'CREDITO');
             </div>
             <div class="field">
                 <label for="tipoMovimiento">Tipo de movimiento:</label>
-                <select name="tipoMovimiento" id="tipoMovimiento" required>
-                <?php 
-                foreach ($tipoPago as $key => $value) {
-                    echo '<option value="'.$value.'">'.$value.'</option>';
-                }
-                ?>
-                </select>
+                <?php if ($futureAction === 'CREAR') { ?>
+                    <select name="tipoMovimiento" id="tipoMovimiento" required>
+                <?php } else { ?>
+                    <select name="tipoMovimiento" id="tipoMovimiento" required disabled>
+                <?php } 
+                        foreach ($tipoMovimiento as $key => $value) {
+                            if ($value === $currentMove['tipo_movimiento']) {
+                                echo '<option selected value="' . $value . '">' . $value . '</option>';
+                            } else {
+                                echo '<option value="' . $value . '">' . $value . '</option>';
+                            }
+                        }
+                        ?>
+                        </select>
 
             </div>
             <div class="field">
                 <label for="tipoPago">Tipo de pago:</label>
-                <select name="tipoPago" id="tipoPago" required>
-                <?php 
-                foreach ($tipoMovimiento as $key => $value) {
-                    echo '<option value="'.$value.'">'.$value.'</option>';
-                }
-                ?>
+                <?php if ($futureAction === 'CREAR') { ?>
+                        <select name="tipoPago" id="tipoPago" required>
+                <?php } else { ?>
+                    <select name="tipoPago" id="tipoPago" required disabled>
+                <?php }
+                    foreach ($tipoPago as $key => $value) {
+                        if ($value === $currentMove['tipo_pago']) {
+                            echo '<option selected value="' . $value . '">' . $value . '</option>';
+                        } else {
+                            echo '<option value="' . $value . '">' . $value . '</option>';
+                        }
+                    }
+                    ?>
                 </select>
             </div>
             <div class="field">
@@ -133,7 +149,7 @@ $tipoPago=array('EFECTIVO','CHEQUE', 'TARJETA', 'TRANSFERENCIA', 'CREDITO');
             <button type="submit" id="make-move">Realizar transacción</button>
             <!-- <button type="button" id="make-egress-bill">Crear nueva factura de egreso</button> -->
         <?php } ?>
-        <button type="button" class="back-to-LM-btn">Regresar a la lista</button>
+        <button type="button" class="back-to-LM-btn"><img src="./assets/img/back.svg" alt="Regresar a la lista" height ="50" width="50" ></button>
     </div>
 </form>
 

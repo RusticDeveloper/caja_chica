@@ -8,8 +8,8 @@ session_start();
 $monto = filter_input(INPUT_POST, 'monto_mov');
 $usuario_autoriza = filter_input(INPUT_POST, 'autorizado');
 $usuario_solicita = filter_input(INPUT_POST, 'solicitado');
-$tipo_movimiento = filter_input(INPUT_POST, 'solicitado');
-$tipo_pago = filter_input(INPUT_POST, 'solicitado');
+$tipo_movimiento = filter_input(INPUT_POST, 'tipoMovimiento');
+$tipo_pago = filter_input(INPUT_POST, 'tipoPago');
 $descripcion = filter_input(INPUT_POST, 'description');
 $comprobante = filter_input(INPUT_POST, 'comprobante');
 $authKey = filter_input(INPUT_POST, 'clave_auth');
@@ -78,7 +78,7 @@ if (gettype($current) === 'string') {
 
         default:
             $usuarios = getUserList();
-            
+            $saldoCC=$current['saldo_actual_caja_chica'];
             include('./app/views/movimientos.php');
             // echo $futureAction;
             // echo $action;

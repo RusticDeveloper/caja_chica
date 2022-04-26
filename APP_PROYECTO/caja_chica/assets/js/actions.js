@@ -35,6 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let crearReporteArqueo = document.getElementById("report_settlement");
     let crearReporteMovimiento = document.getElementById("report_moves");
     let estadoResultados = document.getElementById("report_result_state");
+    let botonConfirmarArqueo = document.getElementById("authSaveSettlement");
     let b_cien = document.getElementById("b_cien");
     let b_cincuenta = document.getElementById("b_cincuenta");
     let b_veinte = document.getElementById("b_veinte");
@@ -51,18 +52,47 @@ document.addEventListener("DOMContentLoaded", function () {
     let archivo = document.getElementById("comprovante");
     let mensaje = document.getElementById("mensaje");
 
+    let FC = document.getElementById("firstConfirm");
+    let SC = document.getElementById("secondConfirm");
+
 
 
     // DDRC-C: acciones para botones en general
     document.querySelectorAll('.back-btn').forEach(item => {
         item.addEventListener('click', goToMain);
     });
+
     document.querySelectorAll('.back-to-LM-btn').forEach(item => {
         item.addEventListener('click', goOneUp.bind(this, 'moves-list'), false);
     });
+
     document.querySelectorAll('.back-to-LA-btn').forEach(item => {
         item.addEventListener('click', goOneUp.bind(this, 'settlements-list'), false);
     });
+    document.querySelectorAll('.KillThemAll').forEach(item => {
+        item.addEventListener('click', () => {
+            ruta = 'settlement?action=KillThemAll';
+            window.open(ruta, "_self");
+            window.focus();
+        });
+    });
+
+
+    document.getElementsByName('confim').forEach(item => {
+        item.addEventListener('click', (e) => {
+            if (e.target.value === 'YES') {
+                FC.style.display = 'none';
+                SC.style.display = 'block';
+            } else {
+                ruta = 'settlement?action=KillThemAll';
+                window.open(ruta, "_self");
+                window.focus();
+                FC.style.display = 'none';
+                SC.style.display = 'none';
+            }
+        });
+    });
+
 
     if (b_cien && monto) {
         b_cien.addEventListener("input", totalCash);
@@ -81,26 +111,26 @@ document.addEventListener("DOMContentLoaded", function () {
     // DDRC-C: acciones para botones especificos
     if (botonCrear) {
         botonCrear.addEventListener("click", setFormAction.bind(this, "crear"), false);
-        formularioCajaChica.action='create-pettybox';
-    } 
+        formularioCajaChica.action = 'create-pettybox';
+    }
     if (botonActualizar) {
         botonActualizar.addEventListener("click", setFormAction.bind(this, "actualizar"), false);
-        formularioCajaChica.action='update-pettybox';
+        formularioCajaChica.action = 'update-pettybox';
     }
     if (botonEliminar) {
         botonEliminar.addEventListener("click", setFormAction.bind(this, "eliminar"), false);
-        formularioCajaChica.action='delete-pettybox';
+        formularioCajaChica.action = 'delete-pettybox';
     }
 
     if (actualizarMovimiento) {
         actualizarMovimiento.addEventListener("click", setFormAction.bind(this, "actualizar"), false);
-        formularioMovimiento.action='move-performance';
+        formularioMovimiento.action = 'move-performance';
     } else if (anularMovimiento) {
         anularMovimiento.addEventListener("click", setFormAction.bind(this, "anular"), false);
-        formularioMovimiento.action='move-performance';
+        formularioMovimiento.action = 'move-performance';
     } else if (crearMovimiento) {
         crearMovimiento.addEventListener("click", setFormAction.bind(this, "crear"), false);
-        formularioMovimiento.action='move-performance';
+        formularioMovimiento.action = 'move-performance';
     }
 
     if (archivo) {
@@ -111,13 +141,17 @@ document.addEventListener("DOMContentLoaded", function () {
         crearArqueo.addEventListener("click", setFormAction.bind(this, "crear"), false);
     }
 
+    if (botonConfirmarArqueo) {
+        botonConfirmarArqueo.addEventListener("click", setFormAction1.bind(this, "confirmar"), false);
+    }
+
     if (crearReporteArqueo) {
         crearReporteArqueo.addEventListener("click", goToReport.bind(this, "moves"), false);
     }
 
-    if (estadoResultados) {
-        estadoResultados.addEventListener("click", goToReport.bind(this, "resultState"), false);
-    }
+    // if (estadoResultados) {
+    //     estadoResultados.addEventListener("click", goToReport.bind(this, "resultState"), false);
+    // }
 
     if (crearReporteMovimiento) {
         crearReporteMovimiento.addEventListener("click", goToReport.bind(this, "settlements"), false);
@@ -128,6 +162,12 @@ document.addEventListener("DOMContentLoaded", function () {
     //DDRC-C: establece el valor del campo oculto de acción
     function setFormAction(actionValue) {
         let ActionInput = document.getElementById("action_input");
+        ActionInput.value = actionValue;
+        // alert('boton-presionado: ' + ActionInput.value);
+    }
+    //DDRC-C: establece el valor del campo oculto de acción
+    function setFormAction1(actionValue) {
+        let ActionInput = document.getElementById("action_input1");
         ActionInput.value = actionValue;
         // alert('boton-presionado: ' + ActionInput.value);
     }
@@ -163,15 +203,15 @@ document.addEventListener("DOMContentLoaded", function () {
     //DDRC-C: verifica el tamaño del archivo
     function checkZise() {
         // 2097152
-        tamano=archivo.files[0].size;
-        if (tamano>2097152) {
-            mensaje.innerHTML='el archivo pesa mas de 2 MB, debe ser menor';
-            archivo.value=null;
+        tamano = archivo.files[0].size;
+        if (tamano > 2097152) {
+            mensaje.innerHTML = 'el archivo pesa mas de 2 MB, debe ser menor';
+            archivo.value = null;
         } else {
-            mensaje.innerHTML='el archivo es menor a 2 MB, se puede subir';
+            mensaje.innerHTML = 'el archivo es menor a 2 MB, se puede subir';
         }
     }
-    function formatBytes(a, b = 2, k = 1024) { with (Math) { let d = floor(log(a) / log(k)); return 0 == a ? "0 Bytes" : parseFloat((a / pow(k, d)).toFixed(max(0, b)))} }
+    function formatBytes(a, b = 2, k = 1024) { with (Math) { let d = floor(log(a) / log(k)); return 0 == a ? "0 Bytes" : parseFloat((a / pow(k, d)).toFixed(max(0, b))) } }
 });
 
 //DDRC-C: funcion para enviar una accion y un id0 de la lista de movimientos a los movimientos en general

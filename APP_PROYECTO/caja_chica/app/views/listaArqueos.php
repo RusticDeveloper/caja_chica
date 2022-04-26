@@ -1,9 +1,9 @@
 <?php include('common/header.php') ?>
 
-<h1>Lista de movimientos</h1>
+<h1>Lista de arqueos</h1>
 <!-- <h2>Aqui se listan los arqueos realizados en un periodo de tiempo</h2> -->
 <div class="actions">
-    <button class="back-btn">Regresar</button>    
+    <button class="back-btn"><img src="./assets/img/back.svg" alt="Regresar" height ="50" width="50" ></button>    
     <button class="add-move" onclick="sendSettlementAction('CREAR')">Realizar Arqueo</button>
 </div>
 <div class="move_list">

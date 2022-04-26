@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="./assets/css/general.css">
     <link rel="stylesheet" href="./assets/css/index.css">
     <!-- DDRC-C: custom icon for the tab -->
-    <link rel="icon" type="image/svg" href="./assets/img/favicon.svg">
+    <link rel="icon" type="image/jpg" href="./assets/img/favicon.jpg">
     <title>APP PROYECTO</title>
 </head>
 

@@ -6,7 +6,7 @@ date_default_timezone_set('America/Lima');
 
 require('cajaChica.php');
 require('./app/controllers/archivos.controller.php');
-//*TODO: hacer que se sumen o resten dependiendo el valor de tipo movimiento */
+
 function addMove($information, $archivo = 'noFile')
 {
    // DDRC-C: variable global de la base de datos
@@ -41,11 +41,14 @@ function addMove($information, $archivo = 'noFile')
 
    $statement->execute();
    $statement->closeCursor();
-
+   // DDRC-C: nueva consulta que cambia el valor actual de la caja chica
    $query1  = 'UPDATE caja_chica SET saldo_actual_caja_chica=:restante WHERE id=:idCajaChica';
    $statement1 = $db->prepare($query1);
-
+if ($information['tipoMovimiento']=='EGRESO') {
    $remainingCash = floatval(getCurrentPettyBoxValue($information['idCajaChica'])['saldo_actual_caja_chica']) - floatval($information['monto']);
+}else{
+   $remainingCash = floatval(getCurrentPettyBoxValue($information['idCajaChica'])['saldo_actual_caja_chica']) + floatval($information['monto']);
+}
 
    $statement1->bindValue(':restante', $remainingCash);
    $statement1->bindValue(':idCajaChica', $information['idCajaChica']);
@@ -166,7 +169,7 @@ function getMove($identification)
 {
    global $db;
    $query = 'SELECT pSol.nombres as nsol,pSol.apellidos as apsol,pAuth.nombres as nauth,pAuth.apellidos as apauth,
-   uSol.id_usuario as solID,uAuth.id_usuario as authID,descripcion,monto_movimiento,id,url_comprobante FROM movimientos_caja_chica 
+   uSol.id_usuario as solID,uAuth.id_usuario as authID,descripcion,monto_movimiento,id,url_comprobante,tipo_movimiento,tipo_pago FROM movimientos_caja_chica 
    LEFT JOIN usuario uSol ON movimientos_caja_chica.usuario_solicita = uSol.id_usuario 
    LEFT JOIN usuario uAuth ON movimientos_caja_chica.usuario_autoriza = uAuth.id_usuario 
    LEFT JOIN persona pSol ON uSol.id_persona = pSol.id_persona

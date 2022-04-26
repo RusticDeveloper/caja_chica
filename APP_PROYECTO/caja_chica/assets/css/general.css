@@ -1,9 +1,51 @@
+
 /* DDRC-C: configuracion general para las vistas */
 * {
     margin    : 0;
     padding   : 0;
     box-sizing: border-box;
 }
+
+/* DDRC-C: estilos para los modales */
+
+.modal-background {
+	width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    /* display: none; */
+    z-index: 9998;
+}
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    text-align: center;
+    padding: 1%;
+    border-radius: 25px;
+    /* display: none; */
+    width: 310px;
+    height: 310px;
+    background-color: #fff;
+    box-sizing: border-box;
+    z-index: 9999;
+}
+
+#firstConfirm{
+    padding-top: 30%;
+    font-size: 1.1em;
+}
+  #secondConfirm{
+    padding-top: 20%;
+    font-size: 1.1em;
+    display: none;
+}
+
 
 body {
     min-height: 100vh;
@@ -96,8 +138,6 @@ input, textarea, select, label{
     font-size: 2rem;
     cursor: pointer;
 }
-
-
 
 fieldset>legend{
     font-size: 2em;

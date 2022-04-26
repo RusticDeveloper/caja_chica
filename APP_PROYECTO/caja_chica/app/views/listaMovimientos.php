@@ -3,11 +3,11 @@
 <h1>Lista de movimientos</h1>
 
 <div class="actions">
-    <button class="back-btn">Regresar</button>
+    <button class="back-btn"><img src="./assets/img/back.svg" alt="Regresar" height ="50" width="50" ></button>
     <?php if ($action === 'NULLIFIED') { ?>
-        <button class="nullified" onclick="sendAction('FLAG')">revisar movimientos</button>
+        <button class="nullified" onclick="sendAction('FLAG')">Revisar movimientos</button>
     <?php } else { ?>
-        <button class="nullified" onclick="sendAction('NULLIFIED')">revisar movimientos anulados</button>
+        <button class="nullified" onclick="sendAction('NULLIFIED')">Revisar movimientos anulados</button>
     <?php } ?>
     
     <button class="add-move" onclick="sendAction('CREAR')">Realizar movimientos</button>
@@ -27,7 +27,7 @@
         </thead>
         <tBody>
         <?php if (isset($isEmpthy)) {
-            echo '<h1>no hay datos en la base de datos</h1>';
+            echo '<h1>no hay registros en la base de datos</h1>';
         } else if (isset($movimientos)) {
             foreach ($movimientos as $key => $value) {
                 echo '<tr>';

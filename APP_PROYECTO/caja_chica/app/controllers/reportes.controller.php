@@ -1,7 +1,6 @@
 <?php
 
 // DDRC-C:obtiene datos de la base de datos y reportes
-
 include('./app/models/connection.php');
 // DDRC-C: utiliza la libreria para generar reportes
 require('./app/core/dependencies/TCPDF/tcpdf.php');
@@ -63,7 +62,8 @@ switch ($accion) {
         break;
     case 'resultState':
         echo 'entro a estado de resultados';
-        ReporteEstadoDeResultdatos(2);
+        var_dump($_POST);
+        ReporteEstadoDeResultdatos();
         break;
 
     default:
@@ -323,102 +323,157 @@ function ReporteArqueo($idReporte)
 
 //******************  DDRC-C: reporte de estado de resultados **************/
 //******************* Este reporte se puede mover a otro modulo en cualquier momento ****************/
-function ReporteEstadoDeResultdatos( $idEstadoResultados,$fechaInicial='01-01-2020', $fechaFinal='01-01-2022')
+function ReporteEstadoDeResultdatos()
 {
     global $report;
 
+    $initialDate = filter_input(INPUT_POST, 'startDate');
+    $lastDate = filter_input(INPUT_POST, 'endDate');
+
     // DDRC-C: datos de la base
     include('./app/models/estadoDeResultados.php');
+    $estadoResultados = getResultStateData(0, $initialDate, $lastDate);
 
+    // var_dump($estadoResultados);
+    foreach ($estadoResultados as $key => $value) {
+        switch ($value['account_name']) {
+            case 'INGRESOS NETOS':
+                $ingresoNeto = $value['HABER'];
+                break;
+            case 'COSTES BIENES':
+                $costesBienes=$value['DEBE'];
+                break;
+            case 'GASTOS GENERALES':
+                $gastosGenerales=$value['DEBE'];
+                break;
+            case 'AMORIZACIONES Y PROVICIONES':
+                $amortizacion=$value['DEBE'];
+                break;
+            case 'GASTOS EXTRAORDINARIOS':
+                $gastoExtrordinario=$value['DEBE'];
+                break;
+            case 'INGRESOS EXTRAORDINARIOS':
+                $ingresoExtraordinario=$value['HABER'];
+                break;
+            case 'GASTOS FINANCIEROS':
+                $gastosFinancieros=$value['DEBE'];
+                break;
+            case 'INGRESOS FINANCIEROS':
+                $ingresosFinanciero=$value['HABER'];
+                break;
+            case 'IMPUESTOS':
+                $impuestos=$value['DEBE'];
+                break;
+        }
+    }
 
-    $estadoResultados = getResultStateData($idEstadoResultados);
-    $coso = 'fdsfsd';
+    if (!isset($ingresoNeto)) {$ingresoNeto = floatval('0');}
+    if (!isset($costesBienes)) {$costesBienes = floatval('0');}
+    if (!isset($gastosGenerales)) {$gastosGenerales = floatval('0');}
+    if (!isset($amortizacion)) {$amortizacion = floatval('0');}
+    if (!isset($gastoExtrordinario)) {$gastoExtrordinario = floatval('0');}
+    if (!isset($ingresoExtraordinario)) {$ingresoExtraordinario = floatval('0');}
+    if (!isset($gastosFinancieros)) {$gastosFinancieros = floatval('0');}
+    if (!isset($ingresosFinanciero)) {$ingresosFinanciero = floatval('0');}
+    if (!isset($impuestos)) {$impuestos = floatval('0');}
+
+    $margenBruto=$ingresoNeto-$costesBienes;
+    $EBITDA=$margenBruto-$gastosGenerales;
+    $EBIT=$EBITDA-$amortizacion;
+    $resultadoOrdinario=($EBIT+$ingresoExtraordinario)-$gastoExtrordinario;
+    $EBT=($resultadoOrdinario+$ingresosFinanciero)-$gastosFinancieros;
+    $benficioNeto=$EBT-$impuestos;
+    // $margenBruto=$ingresoNeto-$costesBienes;
+    var_dump($estadoResultados);
+    var_dump($costesBienes);
+    var_dump($ingresoNeto);
+
     // DDRC-C: contruir el reporte
-    if (gettype($idEstadoResultados) === 'string') {
+    if (gettype($estadoResultados) === 'string') {
         $html = '<h1>No existen valores en este rango de tiempo</h1>';
     } else {
         $html = <<<EOD
-    <h4 style="text-align:center;">Estado de resultados</h4>
-    <h4 style="text-align:center;">del $fechaInicial, al $fechaFinal</h4>    
-    <h4 style="text-align:center;">Expresado en dolares</h4>    
-    <br>
-    <br>
-    <table cellspacing="0" cellpadding="1" border="1" style="border-color:gray;text-align:center;">
-        <tr>
-            <th style="background-color:skyblue;color:black;text-align:start;">Ingresos o ventas netas</th>
-            <td>$estadoResultados[DEBE]</td>
-        </tr>
-        
-        <tr>
-            <th style="background-color:skyblue;color:black;text-align:start;">– Costes directos de los bienes vendidos</th>
-            <td>$estadoResultados[HABER]</td>
-        </tr>
-        
-        <tr>
-            <th style="background-color:skyblue;color:black;text-align:start;">Margen Bruto</th>
-            <td>$estadoResultados[SALDODEUDOR]</td>
-        </tr>
-        
-        <tr>
-            <th style="background-color:skyblue;color:black;text-align:start;">– Gastos generales, de personal y administrativos</th>
-            <td>$estadoResultados[SALDOACREEDOR]</td>
-        </tr>
-        
-        <tr>
-            <th style="background-color:skyblue;color:black;text-align:start;">EBITDA</th>
-            <td>$estadoResultados[AJUSTEDEBE]</td>
-        </tr>
-        
-        <tr>
-            <th style="background-color:skyblue;color:black;text-align:start;">– Gastos de amortización y provisiones</th>
-            <td>$estadoResultados[AJUSTEHABER]</td>
-        </tr>
-        
-        <tr>
-            <th style="background-color:skyblue;color:black;text-align:start;">Beneficio antes de intereses e impuestos (BAIT) o EBIT</th>
-            <td>$estadoResultados[BALAJUSDEUDOR]</td>
-        </tr>
-        
-        <tr>
-            <th style="background-color:skyblue;color:black;text-align:start;">+ Ingresos extraordinarios</th>
-            <td>$estadoResultados[BALAJUSACREEDOR]</td>
-        </tr>
-        
-        <tr>
-            <th style="background-color:skyblue;color:black;text-align:start;">– Gastos extraordinarios</th>
-            <td>$estadoResultados[BALAJUSACREEDOR]</td>
-        </tr>
-        
-        <tr>
-            <th style="background-color:skyblue;color:black;text-align:start;">Resultado ordinario</th>
-            <td>$estadoResultados[BALAJUSACREEDOR]</td>
-        </tr>
-        
-        <tr>
-            <th style="background-color:skyblue;color:black;text-align:start;">+ Ingresos financieros</th>
-            <td>$estadoResultados[BALAJUSACREEDOR]</td>
-        </tr>
-        
-        <tr>
-            <th style="background-color:skyblue;color:black;text-align:start;">– Gastos financieros</th>
-            <td>$estadoResultados[BALAJUSACREEDOR]</td>
-        </tr>
-        
-        <tr>
-            <th style="background-color:skyblue;color:black;text-align:start;">Beneficio antes de impuestos (BAT) o EBT</th>
-            <td>$estadoResultados[BALAJUSACREEDOR]</td>
-        </tr>
-        
-        <tr>
-            <th style="background-color:skyblue;color:black;text-align:start;">– Impuesto de sociedades</th>
-            <td>$estadoResultados[BALAJUSACREEDOR]</td>
-        </tr>
-        
-        <tr>
-            <th style="background-color:skyblue;color:black;text-align:start;">BENEFICIO NETO</th>
-            <td>$estadoResultados[BALAJUSACREEDOR]</td>
-        </tr>
-        </table>
+        <h4 style="text-align:center;">Estado de resultados</h4>
+        <h4 style="text-align:center;">del $initialDate, al $lastDate</h4>    
+        <h4 style="text-align:center;">Expresado en dolares</h4>    
+        <br>
+        <br>
+        <table cellspacing="0" cellpadding="1" border="1" style="border-color:gray;text-align:center;">
+            <tr>
+                <th style="background-color:skyblue;color:black;text-align:start;">Ingresos o ventas netas</th>
+                <td>$ingresoNeto</td>
+            </tr>
+            
+            <tr>
+                <th style="background-color:skyblue;color:black;text-align:start;">– Costes directos de los bienes vendidos</th>
+                <td>$costesBienes</td>
+            </tr>
+            
+            <tr>
+                <th style="background-color:skyblue;color:black;text-align:start;">Margen Bruto</th>
+                <td>$margenBruto</td>
+            </tr>
+            
+            <tr>
+                <th style="background-color:skyblue;color:black;text-align:start;">– Gastos generales, de personal y administrativos</th>
+                <td>$gastosGenerales</td>
+            </tr>
+            
+            <tr>
+                <th style="background-color:skyblue;color:black;text-align:start;">EBITDA</th>
+                <td>$EBITDA</td>
+            </tr>
+            
+            <tr>
+                <th style="background-color:skyblue;color:black;text-align:start;">– Gastos de amortización y provisiones</th>
+                <td>$amortizacion</td>
+            </tr>
+            
+            <tr>
+                <th style="background-color:skyblue;color:black;text-align:start;">Beneficio antes de intereses e impuestos EBIT</th>
+                <td>$EBIT</td>
+            </tr>
+            
+            <tr>
+                <th style="background-color:skyblue;color:black;text-align:start;">+ Ingresos extraordinarios</th>
+                <td>$ingresoExtraordinario</td>
+            </tr>
+            
+            <tr>
+                <th style="background-color:skyblue;color:black;text-align:start;">– Gastos extraordinarios</th>
+                <td>$gastoExtrordinario</td>
+            </tr>
+            
+            <tr>
+                <th style="background-color:skyblue;color:black;text-align:start;">Resultado ordinario</th>
+                <td>$resultadoOrdinario</td>
+            </tr>
+            
+            <tr>
+                <th style="background-color:skyblue;color:black;text-align:start;">+ Ingresos financieros</th>
+                <td>$ingresosFinanciero</td>
+            </tr>
+            
+            <tr>
+                <th style="background-color:skyblue;color:black;text-align:start;">– Gastos financieros</th>
+                <td>$gastosFinancieros</td>
+            </tr>
+            
+            <tr>
+                <th style="background-color:skyblue;color:black;text-align:start;">Beneficio antes de impuestos EBT</th>
+                <td>$EBT</td>
+            </tr>
+            
+            <tr>
+                <th style="background-color:skyblue;color:black;text-align:start;">– Impuestos</th>
+                <td>$impuestos</td>
+            </tr>
+            
+            <tr>
+                <th style="background-color:skyblue;color:black;text-align:start;">BENEFICIO NETO</th>
+                <td>$benficioNeto</td>
+            </tr>
+            </table>
     EOD;
     }
 

@@ -95,7 +95,7 @@ function getPettyBoxes()
 function getCurrentPettyBox()
 {
    global $db;
-   $query = 'SELECT id,monto_caja_chica,descripcion,nombres,apellidos,id_usuario,saldo_actual_caja_chica,fecha_apertura FROM caja_chica 
+   $query = 'SELECT * FROM caja_chica 
    INNER JOIN usuario ON caja_chica.usuario_encargado = usuario.id_usuario 
    INNER JOIN persona ON usuario.id_persona = persona.id_persona
    WHERE fecha_cierre IS NULL ;';

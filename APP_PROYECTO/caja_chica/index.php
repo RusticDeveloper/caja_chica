@@ -22,6 +22,9 @@ switch ($request[0]) {
     case '/':
         require __DIR__ . '/app/views/inicio.php';
         break;
+    case 'index':
+        require __DIR__ . '/app/views/inicio.php';
+        break;
     case '':
         require __DIR__ . '/app/views/inicio.php';
         break;
@@ -65,8 +68,14 @@ switch ($request[0]) {
     case 'settlement-report':
         require __DIR__ . '/app/controllers/reportes.controller.php';
         break;
+    case 'result-state-report':
+        require __DIR__ . '/app/controllers/reportes.controller.php';
+        break;
     case 'settlement':
         require __DIR__ . '/app/controllers/arqueosCajaChica.controller.php';
+        break;
+    case 'reposition':
+        require __DIR__ . '/app/controllers/reposicionCajaChica.controller.php';
         break;
     case 'reports':
         require __DIR__ . '/app/controllers/reportes.controller.php';

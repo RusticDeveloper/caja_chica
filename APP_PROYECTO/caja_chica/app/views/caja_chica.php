@@ -1,7 +1,7 @@
 <?php include('common/header.php') ?>
 <h1>Saldo inicial de la caja chica</h1>
 
-<button type="button" class="back-btn">Regresar</button>
+<button type="button" class="back-btn"><img src="./assets/img/back.svg" alt="Regresar" height ="50" width="50" ></button>
 <form method="post" id="pt-box-form">
     <!-- DDRC-C: campo oculto para mostrar la accion que se va a realizar -->
     <input type="text" hidden id="action_input" name="action">

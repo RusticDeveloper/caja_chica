@@ -2,6 +2,54 @@
 
 <h1>Arqueo</h1>
 
+<!-- DDRC-C: modal para saber si se guarda o no un arqueo -->
+<?php
+if (isset($_SESSION['showModal'])) {    
+    echo '    
+    <label for="modal" class="modal-background"></label>
+    <div class="modal">
+    <div id="firstConfirm">
+        <h3>' . $_SESSION['showModal'] . '</h3>
+        <br>
+        <label for="confim">No:</label>
+        <input type="radio" name="confim" id="N" value="NO">
+        <label for="confim">Si:</label>
+        <input type="radio" name="confim" id="Y" value="YES">
+    </div>
+    
+    <div id="secondConfirm" >
+        <form action="settlement" method="post">
+            <!-- DDRC-C: campo oculto para demostrar la accion que se va a realizar -->
+            <input type="text" hidden id="action_input1" name="action">
+            <label for="username">Especifique el usuario responsable del arqueo:</label>
+            <select name="username" id="usermame">';
+                foreach ($usuarios as $key => $value) {
+                    if ($value['id_usuario'] === $currentMove['authID']) {
+                        echo ' <option selected value="' . $value["id_usuario"] . '">' . $value["nombres"] . ' ' . $value["apellidos"]  . '</option>';
+                    } else {
+                        echo ' <option value="' . $value["id_usuario"] . '">' . $value["nombres"] . ' ' . $value["apellidos"]  . '</option>';
+                    }
+                }
+            echo '
+            </select><br>
+            <label for="authID">Indique la clave de autorización:</label>
+            <input type="password" name="authID" id="authID" required>';
+                    if (isset($_SESSION['invalidKey'])) {
+                        echo '<label>' . $_SESSION['invalidKey'] . '</label>';
+                        unset($_SESSION['invalidKey']);
+                    }
+            echo '<br><button type="button" class="KillThemAll">Cancelar</button>
+            <button type="submit" id="authSaveSettlement">Confirmar</button>
+        </form>
+    </div>
+    </div>
+    ';
+}
+?>
+
+
+
+
 <form action="settlement" method="post">
     <!-- DDRC-C: campo oculto para demostrar la accion que se va a realizar -->
     <input type="text" hidden id="action_input" name="action">
@@ -83,22 +131,22 @@
             </tr>
         </thead>
         <tbody>
-        <?php if (isset($isEmpthy)) {
-            echo '<h1>no existen datos de movimientos </h1>';
-        } else if (isset($movimientos)) {
-            foreach ($movimientos as $key => $value) {
-                echo '<tr>';
-                echo '<td data-column="Concepto:">' . $value['descripcion'] . '</td>';
-                echo '<td data-column="Valor:">' . $value['monto_movimiento'] . '</td>';
-                echo '<td data-column="Autorizado por:">' . $value['nsol'] . ' ' . $value['apsol'] . '</td>';
-                echo '<td data-column="Solicitado por:">' . $value['nauth'] . ' ' . $value['apauth'] . '</td>';
-                echo '<td data-column="Fecha:">' . $value['fecha_movimiento'] . '</td>';
-                echo '</tr>';
-            }
-        } ?>
+            <?php if (isset($isEmpthy)) {
+                echo '<h1>no existen datos de movimientos </h1>';
+            } else if (isset($movimientos)) {
+                foreach ($movimientos as $key => $value) {
+                    echo '<tr>';
+                    echo '<td data-column="Concepto:">' . $value['descripcion'] . '</td>';
+                    echo '<td data-column="Valor:">' . $value['monto_movimiento'] . '</td>';
+                    echo '<td data-column="Autorizado por:">' . $value['nsol'] . ' ' . $value['apsol'] . '</td>';
+                    echo '<td data-column="Solicitado por:">' . $value['nauth'] . ' ' . $value['apauth'] . '</td>';
+                    echo '<td data-column="Fecha:">' . $value['fecha_movimiento'] . '</td>';
+                    echo '</tr>';
+                }
+            } ?>
         </tbody>
     </table>
-    <button class="back-to-LA-btn">Regresar al menu</button>
+    <button class="back-to-LA-btn"><img src="./assets/img/back.svg" alt="Regresar al menú" height ="50" width="50" ></button>
 
 </div>
 
